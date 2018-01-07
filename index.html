@@ -16,30 +16,37 @@
 
     <label for="base">Base Color</label>
     <input id="base" type="color" name="base" value="#ffc600">
+
+    <label for="base">Round:</label>
+    <input id="round" type="range" name="round" min="0" max="50" value="0" data-sizing="%">
+
   </div>
 
-  <img src="https://source.unsplash.com/7bwQXzbF6KE/800x500">
+  <div class = "imgChange">
+    <button for="imgChange">Change Picture</button>
+  </div>
+
+  <img id="img" src="http://lorempixel.com/800/500/">
 
   <style>
-    :root {
-      --base: #ffc600;
-      --spacing: 10px;
-      --blur: 10px;
-    }
 
-    img {
+   :root{
+     --base: #000000;
+     --blur: 10px;
+     --spacing: 10px;
+     --round: 0%;
+   }
+
+   img{
       padding: var(--spacing);
       background: var(--base);
       filter: blur(var(--blur));
-    }
+      border-radius: var(--round);
+   }
 
-    .hl {
-      color: var(--base);
-    }
-
-    /*
-      misc styles, nothing to do with CSS variables
-    */
+   .hl{
+     color: var(--base);
+   }
 
     body {
       text-align: center;
@@ -57,20 +64,37 @@
     input {
       width:100px;
     }
+
+    button{
+      color: white;
+      background-color: var(--base);
+      font-family: 'helvetica neue', sans-serif;
+      font-weight: 100;
+      font-size: 30px;
+      margin-bottom: 50px;
+    }
+
   </style>
 
   <script>
     const inputs = document.querySelectorAll('.controls input');
+    const button = document.querySelector('.imgChange button');
+    const img = document.querySelector('#img');
 
-    function handleUpdate() {
-      const suffix = this.dataset.sizing || '';
-      document.documentElement.style.setProperty(`--${this.name}`, this.value + suffix);
+    function changeStyle(){
+      const suffix = this.dataset.sizing || ''; //for the px suffix or no suffix for color changeStyle
+      document.documentElement.style.setProperty('--'+this.name, this.value + suffix);
     }
 
-    inputs.forEach(input => input.addEventListener('change', handleUpdate));
-    inputs.forEach(input => input.addEventListener('mousemove', handleUpdate));
-  </script>
+    function newImg(){
+      img.src = "http://lorempixel.com/800/500/";
+    }
 
+    inputs.forEach(input => input.addEventListener('mouseover', changeStyle));
+    inputs.forEach(input => input.addEventListener('change', changeStyle));
+    button.addEventListener('click', newImg);
+
+  </script>
 
 </body>
 </html>
